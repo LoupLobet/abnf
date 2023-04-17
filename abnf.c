@@ -24,14 +24,7 @@ bit(State *st)
 void
 crlf(State *st)
 {
-	EVERY(
-		AND(
-			STR(\r)
-		)
-		AND(
-			STR(\n)
-		)
-	)
+	STR(\r\n)
 }
 
 void

@@ -40,6 +40,7 @@ do {\
 	}\
 } while(0);\
 
+/* STR() is case insensitive */
 #define STR(s) \
 do {\
 	int i;\
@@ -194,7 +195,5 @@ void	 rpar(State *);
 void	 sp(State *);
 void	 vchar(State *);
 void	 wsp(State *);
-
-extern Node *tree;
 
 #endif
