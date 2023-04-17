@@ -15,7 +15,7 @@ alpha(State *st)
 void
 bit(State *st)
 {
-	ASCIIRANGE(0x30-0x31)
+	ASCIIRANGE(0x30, 0x31)
 }
 
 void
