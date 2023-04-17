@@ -15,10 +15,7 @@ alpha(State *st)
 void
 bit(State *st)
 {
-	CHOOSE(
-		OR(STR(0))
-		OR(STR(1))
-	)
+	ASCIIRANGE(0x30-0x31)
 }
 
 void
