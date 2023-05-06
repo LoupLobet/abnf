@@ -15,6 +15,7 @@ typedef struct {
 	Node *node;     /* syntaxe tree */
 	Node *left;
 	char *current;  /* next character to be parsed */
+	int len;        /* len of text to be parsed  */
 	int status;     /* syntaxe matching status (FAIL or MATCH )*/
 } State;
 ```
@@ -56,7 +57,7 @@ int
 main(int argc, char *argv[])
 {
 	char *s = "foo";
-	State st = { NULL, NULL, s, MATCH };
+	State st = { NULL, NULL, s, strlen(s), MATCH };
 
 	start(&st);
 	if (st.status == MATCH)

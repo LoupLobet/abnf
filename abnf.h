@@ -18,6 +18,7 @@ typedef struct {
 	Node *node;
 	Node *left;
 	char *current;
+	int len;
 	int status;
 } State;
 
@@ -28,12 +29,13 @@ enum { FAIL, MATCH };
 
 #define ASCIIRANGE(n, m)\
 do {\
-	if (n <= (unsigned char) *(st->current) && (unsigned char) *(st->current) <= m) {\
+	if (st->len > 0 && n <= (unsigned char) *(st->current) && (unsigned char) *(st->current) <= m) {\
 		st->status = MATCH;\
 		st->node = node_new();\
 		node_fill(st->node, st->current, 1, "ascii", 6);\
 		st->left = st->node;\
 		st->current++;\
+		st->len--;\
 	} else {\
 		st->node = NULL;\
 		st->status = FAIL;\
@@ -47,7 +49,7 @@ do {\
 \
 	fail = 0;\
 	for (i = 0; i < strlen(#s); i++) {\
-		if (tolower(#s[i]) != tolower(st->current[i])) {\
+		if (!st->len || tolower(#s[i]) != tolower(st->current[i])) {\
 			st->status = FAIL;\
 			fail = 1;\
 			break;\
@@ -57,13 +59,13 @@ do {\
 		st->node = NULL;\
 		break;\
 	}\
+	st->len -= i;\
 	st->status = MATCH;\
 	st->node = node_new();\
 	node_fill(st->node, st->current, i, "string", 6);\
 	st->left = st->node;\
 	st->current += i;\
 } while(0);\
-
 
 #define CHOOSE(body) \
 do {\
@@ -83,9 +85,11 @@ do {\
 	Node *nanchor;\
 	Node *node;\
 	char *sanchor;\
+	int lanchor;\
 	int root;\
 \
 	sanchor = st->current;\
+	lanchor = st->len;\
 	nanchor = NULL;\
 	node = NULL;\
 	root = 1;\
@@ -100,6 +104,7 @@ do {\
 \
 	if (st->status == FAIL) {\
 		st->current = sanchor;\
+		st->len = lanchor;\
 		node_free(nanchor);\
 		node_free(st->node);\
 		break;\
@@ -143,8 +148,10 @@ do {\
 	Node *node;\
 	Node *nanchor;\
 	char *sanchor;\
+	int lanchor;\
 	int i;\
 \
+	lanchor = st->len;\
 	sanchor = st->current;\
 	nanchor = NULL;\
 	for (i = 0; i < m || m == INF; i++) {\
@@ -164,6 +171,7 @@ do {\
 	}\
 	if (i < n) {\
 		st->status = FAIL;\
+		st->len = lanchor;\
 		st->current = sanchor;\
 		node_free(nanchor);\
 		node_free(st->node);\

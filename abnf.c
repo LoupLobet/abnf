@@ -121,7 +121,7 @@ void
 octet(State *st)
 {
 	/* omits 0x00 as it's also C string cookie */
-	ASCIIRANGE(0x01, 0xff)
+	ASCIIRANGE(0x00, 0xff)
 }
 
 void
