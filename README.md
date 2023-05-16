@@ -25,7 +25,7 @@ int
 main(int argc, char *argv[])
 {
 	char *s = "foo";
-	State st = { NULL, NULL, s, MATCH };
+	State st = { NULL, NULL, s, strlen(s), MATCH };
 	return 0;
 }
 ```
@@ -37,7 +37,7 @@ int
 main(int argc, char *argv[])
 {
 	char *s = "foo";
-	State st = { NULL, NULL, s, MATCH };
+	State st = { NULL, NULL, s, strlen(s), MATCH };
 
 	start(&st);
 	return 0;
